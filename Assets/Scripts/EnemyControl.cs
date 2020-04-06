@@ -16,6 +16,32 @@ public class EnemyControl : MonoBehaviour {
 		}
 	}
 
+	public byte SpotHitDirection (Vector3 hitPointRelative)
+	{
+		if (hitPointRelative.x >= 0)
+		{
+			if (hitPointRelative.z <= 0)
+			{
+				return 0;
+			}
+			else
+			{
+				return 1;
+			}
+		}
+		else
+		{
+			if (hitPointRelative.z >= 0)
+			{
+				return 2;
+			}
+			else
+			{
+				return 3;
+			}
+		}
+	}	
+
 	void Start () {
 		enemyAnim = GetComponent<Animator>();
 		enemyCollider = GetComponent<Collider>();
@@ -24,7 +50,10 @@ public class EnemyControl : MonoBehaviour {
 	void OnTriggerEnter (Collider other)
 	{
 		//enemyAnim.enabled = false;
-		Debug.Log("enemyColliderHitPoint: " + enemyColliderHitPoint.transform.position);
+		var enemyColliderHitPointRelative = transform.InverseTransformPoint(enemyColliderHitPoint.transform.position);
+		//Debug.Log("enemyColliderHitPointRelative :" + enemyColliderHitPointRelative);
+		Debug.Log("hitDirection: " + SpotHitDirection(enemyColliderHitPointRelative));
+		//Debug.Log("enemyColliderHitPoint: " + enemyColliderHitPoint.transform.position);
 	}
 
 	// void OnCollisionEnter(Collision collision)
@@ -33,10 +62,6 @@ public class EnemyControl : MonoBehaviour {
 	// 	var bulletContactPoint = contact.point;
 	// 	var enemyColliderCenter = enemyCollider.bounds.center;
 	// 	Vector3 enemyRelative = transform.InverseTransformPoint(bulletContactPoint);
-	// 	Debug.Log("contact point: " + bulletContactPoint.ToString());
-	// 	Debug.Log("enemy collider bounds center: " + enemyColliderCenter.ToString());
-	// 	Debug.Log("enemyRelative: " + enemyRelative.ToString());
-	// 	Debug.DrawRay(bulletContactPoint, contact.normal, Color.white);
 	// }
 
 }
